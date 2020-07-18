@@ -9,7 +9,7 @@ const gameController = (function () {
     gameBoard,
     storeMarker(id, marker) {
       gameBoard[id] = marker;
-      console.log(gameBoard);
+      //console.log(gameBoard);
     },
 
     checkWinner(gamePlaying) {
@@ -57,6 +57,8 @@ const displayController = (function () {
   const dom = {
     cell: document.querySelectorAll('.cell'),
     board: document.querySelector('.board'),
+    newBtn: document.querySelector('.btn'),
+    notif: document.querySelector('.notif'),
   };
 
   return {
@@ -118,15 +120,27 @@ const appController = (function (gameCtrl, displayCtrl) {
 
         if (!gamePlaying) {
           gameCtrl.resetBoard();
-          alert('Gameover!');
+          dom.notif.textContent = 'Game Over!';
         }
       }
     }
   });
 
+  // Event listener for new game button
+  dom.newBtn.addEventListener('click', () => {
+    gameCtrl.resetBoard();
+    displayCtrl.clearBoard();
+
+    gamePlaying = true;
+    dom.notif.textContent = 'Player ...';
+  });
+
+  // Event listener for window object(page load)
   window.addEventListener('load', (e) => {
     gamePlaying = true;
     displayCtrl.clearBoard();
+
+    dom.notif.textContent = 'Player ...';
   });
 })(gameController, displayController);
 

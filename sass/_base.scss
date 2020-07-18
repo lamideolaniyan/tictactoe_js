@@ -38,3 +38,12 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+a,
+a:link,
+a:active,
+a:visited {
+    text-decoration: none;
+    outline: none;
+    border: none;
+}
