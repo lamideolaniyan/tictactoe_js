@@ -1,0 +1,55 @@
+:root {
+  --color-primary-light: rgba(72, 52, 212, 1.0);
+  --color-primary-dark: rgba(48, 51, 107, 1.0);
+  --color-grey-light-1: rgba(255, 255, 255, 1.0);
+  --color-grey-light-2: rgba(223, 230, 233, 1.0);
+  --color-grey-light-3: rgba(220, 221, 225, 1.0);
+  --color-grey-dark-1: rgba(53, 59, 72, 1.0);
+  --color-grey-dark-2: rgba(47, 54, 64, 1.0);
+  --color-secondary: rgba(253, 203, 110, 1.0);
+  --shadow: 0 0.5rem 2rem rgba(0, 0, .5); }
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box; }
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 300;
+  line-height: 1.6;
+  background-color: var(--color-grey-dark-1);
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+.container {
+  margin: 8rem auto;
+  max-width: 45rem;
+  height: 80vh;
+  background-color: var(--color-grey-dark-2);
+  box-shadow: var(--shadow);
+  border-radius: 2px; }
+
+.game {
+  background-color: var(--color-secondary);
+  height: 35%; }
+
+.board {
+  display: flex;
+  flex-direction: column;
+  padding: 5rem; }
+  .board .row {
+    display: flex;
+    width: 100%;
+    text-align: center; }
+  .board .cell {
+    border: .5px solid orangered;
+    padding: 2rem;
+    flex: 0 0 33.33333333%; }

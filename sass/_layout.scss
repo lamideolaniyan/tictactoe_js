@@ -1,0 +1,33 @@
+.container {
+    margin: 8rem auto;
+    max-width: 45rem;
+    height: 80vh;
+
+    background-color: var(--color-grey-dark-2);
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+}
+
+.game {
+    background-color: var(--color-secondary);
+    height: 35%;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    padding: 5rem;
+
+    & .row {
+        display: flex;
+        width: 100%;
+        text-align: center;
+    }
+
+    & .cell {
+        border: .5px solid orangered;
+        padding: 2rem;
+
+        flex: 0 0 33.33333333%;
+    }
+}
