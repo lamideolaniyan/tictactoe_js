@@ -11,7 +11,12 @@
 
     --color-secondary: rgba(253, 203, 110, 1.0);
 
-    --shadow: 0 0.5rem 2rem rgba(0, 0, .5);
+    --shadow: 0 .5rem 2rem rgba(0, 0, .5);
+    --shadow-light: 0 .1rem .2rem rgba(0, 0, .5);
+}
+
+::selection {
+    background-color: red;
 }
 
 *,
@@ -37,6 +42,9 @@ body {
     background-color: var(--color-grey-dark-1);
     background-size: cover;
     background-repeat: no-repeat;
+
+    color: #fff; //var(--color-grey-light-1);
+    position: relative;
 }
 
 a,

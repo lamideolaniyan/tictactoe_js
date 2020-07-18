@@ -66,10 +66,13 @@ DISPLAY CONTROLLER
 const displayController = (function () {
   let currentPlayer;
   const dom = {
+    container: document.querySelector('.container'),
     cell: document.querySelectorAll('.cell'),
     board: document.querySelector('.board'),
-    newBtn: document.querySelector('.btn'),
+    newBtn: document.querySelector('.newBtn'),
+    startBtn: document.querySelector('.startBtn'),
     notif: document.querySelector('.notif'),
+    popup: document.querySelector('.game'),
   };
 
   return {
@@ -152,16 +155,29 @@ const appController = (function (gameCtrl, displayCtrl) {
     displayCtrl.clearBoard();
     marker = 'O';
 
-    gamePlaying = true;
+    gamePlaying = false;
     dom.notif.textContent = 'Player 1';
+  });
+
+  // Event listener for start button
+  dom.startBtn.addEventListener('click', () => {
+    dom.container.style.opacity = '1';
+    dom.notif.style.opacity = '1';
+    dom.newBtn.style.opacity = '1';
+
+    dom.popup.style.opacity = '0';
   });
 
   // Event listener for window object(page load)
   window.addEventListener('load', (e) => {
-    gamePlaying = true;
+    gamePlaying = false;
     displayCtrl.clearBoard();
 
     dom.notif.textContent = 'Player 1';
+
+    dom.container.style.opacity = '0';
+    dom.notif.style.opacity = '0';
+    dom.newBtn.style.opacity = '0';
   });
 })(gameController, displayController);
 
