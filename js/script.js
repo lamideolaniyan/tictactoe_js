@@ -73,12 +73,20 @@ const displayController = (function () {
     startBtn: document.querySelector('.startBtn'),
     notif: document.querySelector('.notif'),
     popup: document.querySelector('.game'),
+    marker: document.querySelector('.marker__input'),
+    player1: document.querySelector('.player__1'),
+    player2: document.querySelector('.player__2'),
   };
 
   return {
     dom,
-    getMarker() {
-      return currentPlayer;
+    getPlayers() {
+      let marker, player1, player2;
+      dom.marker.value ? (marker = dom.marker.value) : (marker = 'O');
+      player1 = dom.player1.value;
+      player2 = dom.player2.value;
+
+      return { marker, player1, player2 };
     },
 
     changePlayer(marker) {
@@ -94,13 +102,19 @@ const displayController = (function () {
       cell.textContent = board[id];
     },
 
+    togglePlayer(player1, player2) {
+      dom.notif.textContent === player1 ? (dom.notif.textContent = player2) : (dom.notif.textContent = player1);
+    },
+
     clearBoard() {
       const cellArr = Array.from(dom.cell);
       cellArr.forEach((el) => (el.textContent = ''));
     },
 
-    togglePlayer() {
-      dom.notif.textContent === 'Player 1' ? (dom.notif.textContent = 'Player 2') : (dom.notif.textContent = 'Player 1');
+    clearInput() {
+      dom.marker.value = '';
+      dom.player1.value = '';
+      dom.player2.value = '';
     },
   };
 })();
@@ -110,22 +124,17 @@ OVERALL APP CONTROLLER
 */
 
 const appController = (function (gameCtrl, displayCtrl) {
-  let board, marker, gamePlaying, winner;
+  let board, marker, initialMarker, player1, player2, gamePlaying, winner;
   const dom = displayCtrl.dom;
   board = gameCtrl.gameBoard;
-  marker = 'O';
 
   dom.board.addEventListener('click', (e) => {
     if (gamePlaying) {
       if (e.target.matches('.cell')) {
         const cell = e.target;
         const id = parseInt(e.target.dataset.id);
-        //console.log(cell);
 
-        // Get marker
-        //const marker = displayCtrl.getMarker();
-
-        // Change Player
+        // Get marker and change player
         marker = displayCtrl.changePlayer(marker);
 
         // Store marker in clicked position in data structure
@@ -135,7 +144,15 @@ const appController = (function (gameCtrl, displayCtrl) {
         displayCtrl.renderCells(board, cell, id);
 
         // Toggle notification panel
-        displayCtrl.togglePlayer();
+        if (player1 && player2) {
+          displayCtrl.togglePlayer(player1, player2);
+        } else if (player1 && !player2) {
+          displayCtrl.togglePlayer(player1, 'Player 2');
+        } else if (player2 && !player1) {
+          displayCtrl.togglePlayer('Player 1', player2);
+        } else {
+          displayCtrl.togglePlayer('Player 1', 'Player 2');
+        }
 
         // Check if game has been won or tied
         gamePlaying = gameCtrl.checkWinner(gamePlaying).gamePlaying;
@@ -143,7 +160,16 @@ const appController = (function (gameCtrl, displayCtrl) {
 
         if (!gamePlaying) {
           gameCtrl.resetBoard();
-          dom.notif.textContent = 'Game Over!';
+
+          if (winner) {
+            if (initialMarker === winner) {
+              player2 ? (dom.notif.textContent = `${player2} wins!`) : (dom.notif.textContent = 'Player 2 wins!');
+            } else {
+              player1 ? (dom.notif.textContent = `${player1} wins!`) : (dom.notif.textContent = 'Player 1 wins!');
+            }
+          } else {
+            dom.notif.textContent = 'Tie! Try again!';
+          }
         }
       }
     }
@@ -154,9 +180,8 @@ const appController = (function (gameCtrl, displayCtrl) {
     // Reset game board and markers and stop game
     board = gameCtrl.resetBoard();
     displayCtrl.clearBoard();
-    marker = 'O';
+    //marker = 'O';
     gamePlaying = false;
-    dom.notif.textContent = 'Player 1';
 
     // Set css properties to display popup
     dom.popup.style.opacity = '1';
@@ -176,6 +201,14 @@ const appController = (function (gameCtrl, displayCtrl) {
   dom.startBtn.addEventListener('click', () => {
     // Start game
     gamePlaying = true;
+    const players = displayCtrl.getPlayers();
+    marker = players.marker;
+    player1 = players.player1;
+    player2 = players.player2;
+
+    initialMarker = marker;
+
+    console.log({ marker, player1, player2 });
 
     // Set css properties to display game board
     dom.container.style.opacity = '1';
@@ -189,6 +222,10 @@ const appController = (function (gameCtrl, displayCtrl) {
     dom.popup.style.opacity = '0';
     dom.popup.style.visibility = 'hidden';
     dom.popup.style.zIndex = '10';
+
+    // First player name display and clear input fields
+    player1 ? (dom.notif.textContent = player1) : (dom.notif.textContent = 'Player 1');
+    displayCtrl.clearInput();
   });
 
   // Event listener for window object(page load)
@@ -197,10 +234,3 @@ const appController = (function (gameCtrl, displayCtrl) {
     displayCtrl.clearBoard();
   });
 })(gameController, displayController);
-
-/**
- * Get player marker
- * Store player marker in data structure
- * Display marker on clicked tile
- *
- */
