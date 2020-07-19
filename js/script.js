@@ -7,9 +7,15 @@ const gameController = (function () {
 
   return {
     gameBoard,
+
+    checkCell(id) {
+      return gameBoard[id] === '';
+    },
+
     storeMarker(id, marker) {
-      gameBoard[id] = marker;
-      //console.log(gameBoard);
+      if (gameBoard[id] === '') {
+        gameBoard[id] = marker;
+      }
     },
 
     checkWinner(gamePlaying) {
@@ -133,25 +139,32 @@ const appController = (function (gameCtrl, displayCtrl) {
       if (e.target.matches('.cell')) {
         const cell = e.target;
         const id = parseInt(e.target.dataset.id);
+        const emptyCell = gameCtrl.checkCell(id);
 
         // Get marker and change player
-        marker = displayCtrl.changePlayer(marker);
+        if (emptyCell) {
+          marker = displayCtrl.changePlayer(marker);
+        }
 
         // Store marker in clicked position in data structure
-        gameCtrl.storeMarker(id, marker);
+        if (emptyCell) {
+          gameCtrl.storeMarker(id, marker);
+        }
 
         // Render cells on board
         displayCtrl.renderCells(board, cell, id);
 
         // Toggle notification panel
-        if (player1 && player2) {
-          displayCtrl.togglePlayer(player1, player2);
-        } else if (player1 && !player2) {
-          displayCtrl.togglePlayer(player1, 'Player 2');
-        } else if (player2 && !player1) {
-          displayCtrl.togglePlayer('Player 1', player2);
-        } else {
-          displayCtrl.togglePlayer('Player 1', 'Player 2');
+        if (emptyCell) {
+          if (player1 && player2) {
+            displayCtrl.togglePlayer(player1, player2);
+          } else if (player1 && !player2) {
+            displayCtrl.togglePlayer(player1, 'Player 2');
+          } else if (player2 && !player1) {
+            displayCtrl.togglePlayer('Player 1', player2);
+          } else {
+            displayCtrl.togglePlayer('Player 1', 'Player 2');
+          }
         }
 
         // Check if game has been won or tied
@@ -167,8 +180,11 @@ const appController = (function (gameCtrl, displayCtrl) {
             } else {
               player1 ? (dom.notif.textContent = `${player1} wins!`) : (dom.notif.textContent = 'Player 1 wins!');
             }
+
+            dom.container.classList.add('green');
           } else {
             dom.notif.textContent = 'Tie! Try again!';
+            dom.container.classList.add('red');
           }
         }
       }
@@ -180,7 +196,6 @@ const appController = (function (gameCtrl, displayCtrl) {
     // Reset game board and markers and stop game
     board = gameCtrl.resetBoard();
     displayCtrl.clearBoard();
-    //marker = 'O';
     gamePlaying = false;
 
     // Set css properties to display popup
@@ -195,6 +210,11 @@ const appController = (function (gameCtrl, displayCtrl) {
     dom.container.style.visibility = 'hidden';
     dom.notif.style.visibility = 'hidden';
     dom.newBtn.style.visibility = 'hidden';
+
+    try {
+      dom.container.classList.remove('red');
+      dom.container.classList.remove('green');
+    } catch (error) {}
   });
 
   // Event listener for start button
@@ -207,8 +227,6 @@ const appController = (function (gameCtrl, displayCtrl) {
     player2 = players.player2;
 
     initialMarker = marker;
-
-    console.log({ marker, player1, player2 });
 
     // Set css properties to display game board
     dom.container.style.opacity = '1';
