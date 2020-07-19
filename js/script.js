@@ -151,33 +151,50 @@ const appController = (function (gameCtrl, displayCtrl) {
 
   // Event listener for new game button
   dom.newBtn.addEventListener('click', () => {
+    // Reset game board and markers and stop game
     board = gameCtrl.resetBoard();
     displayCtrl.clearBoard();
     marker = 'O';
-
     gamePlaying = false;
     dom.notif.textContent = 'Player 1';
+
+    // Set css properties to display popup
+    dom.popup.style.opacity = '1';
+    dom.popup.style.visibility = 'visible';
+    dom.popup.style.zIndex = '200000';
+
+    // Set css properties to hide gameboard
+    dom.container.style.opacity = '0';
+    dom.notif.style.opacity = '0';
+    dom.newBtn.style.opacity = '0';
+    dom.container.style.visibility = 'hidden';
+    dom.notif.style.visibility = 'hidden';
+    dom.newBtn.style.visibility = 'hidden';
   });
 
   // Event listener for start button
   dom.startBtn.addEventListener('click', () => {
+    // Start game
+    gamePlaying = true;
+
+    // Set css properties to display game board
     dom.container.style.opacity = '1';
     dom.notif.style.opacity = '1';
     dom.newBtn.style.opacity = '1';
+    dom.container.style.visibility = 'visible';
+    dom.notif.style.visibility = 'visible';
+    dom.newBtn.style.visibility = 'visible';
 
+    // Set css properties to hide popup
     dom.popup.style.opacity = '0';
+    dom.popup.style.visibility = 'hidden';
+    dom.popup.style.zIndex = '10';
   });
 
   // Event listener for window object(page load)
   window.addEventListener('load', (e) => {
     gamePlaying = false;
     displayCtrl.clearBoard();
-
-    dom.notif.textContent = 'Player 1';
-
-    dom.container.style.opacity = '0';
-    dom.notif.style.opacity = '0';
-    dom.newBtn.style.opacity = '0';
   });
 })(gameController, displayController);
 

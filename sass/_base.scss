@@ -55,3 +55,22 @@ a:visited {
     outline: none;
     border: none;
 }
+
+.disapper {
+    animation: disappear 2 ease;
+}
+
+@keyframes disappear {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+        display: none;
+    }
+}
