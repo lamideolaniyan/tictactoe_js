@@ -59,7 +59,7 @@ a:visited {
   position: relative;
   margin: 6rem auto;
   max-width: 45rem;
-  height: 80vh;
+  height: 75vh;
   background-color: var(--color-grey-dark-2);
   box-shadow: var(--shadow);
   border-radius: 2px;
@@ -95,6 +95,21 @@ a:visited {
       background-color: var(--color-grey-dark-1); }
     .board .cell:not(:last-of-type) {
       border-right: .5px solid #fff; }
+
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  transition: all .5s;
+  margin-top: -4rem;
+  margin-bottom: 0; }
+
+.footer a {
+  color: #fff;
+  cursor: pointer; }
+  .footer a:hover {
+    border-bottom: .5px solid #fff; }
 
 .new-game {
   margin: 2rem auto;

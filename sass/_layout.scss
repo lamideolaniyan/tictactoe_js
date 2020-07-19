@@ -2,7 +2,7 @@
     position: relative;
     margin: 6rem auto;
     max-width: 45rem;
-    height: 80vh;
+    height: 75vh;
 
     background-color: var(--color-grey-dark-2);
     box-shadow: var(--shadow);
@@ -58,4 +58,27 @@
         justify-content: center;
         align-items: center;
     }
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.5rem;
+    transition: all .5s;
+    margin-top: -4rem;
+    margin-bottom: 0;
+}
+
+.footer a {
+    color: #fff;
+    cursor: pointer;
+
+
+    &:hover {
+        border-bottom: .5px solid #fff;
+    }
+
+    &:focus {}
 }
