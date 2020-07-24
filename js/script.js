@@ -90,7 +90,8 @@ const displayController = (function () {
       let marker, player1, player2;
       dom.marker.value ? (marker = dom.marker.value) : (marker = 'O');
       player1 = dom.player1.value;
-      player2 = dom.player2.value;
+
+      dom.player2.value === '0' ? (player2 = 'Computer') : (player2 = dom.player2.value);
 
       return { marker, player1, player2 };
     },
@@ -252,3 +253,17 @@ const appController = (function (gameCtrl, displayCtrl) {
     displayCtrl.clearBoard();
   });
 })(gameController, displayController);
+
+const computerMove = () => {
+  /**
+   * Assign available marker to computer
+   * Change player to comp after player move
+   * Check if comp position is empty
+   * Save comp marker in board
+   * Display marker
+   * Change player
+   */
+
+  if (!player2) {
+  }
+};
